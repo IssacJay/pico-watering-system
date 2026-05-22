@@ -6,6 +6,7 @@
 ** Project       Pico Irrigation System
 ************************************************************************************
 ** Revisions:
+** V1.1 - 22 May 2026 - Adjusted watering period (12hrs)
 ** V1.0 - 02 May 2026 - Initial version 
 ************************************************************************************
 ** This program is the confidential and proprietary product of: Issac Thomas.
@@ -61,7 +62,7 @@ void SYS_task(void) {
                 break;
         }
 
-        if(elapsed_time_ms >= SEC_TO_MS(SYS_WATERING_INTERVAL_HRS) && sys_state == SYS_IDLE) {
+        if(elapsed_time_ms >= HRS_TO_MS(SYS_WATERING_INTERVAL_HRS) && sys_state == SYS_IDLE) {
             printf("Starting watering cycle for %u seconds...\n", SYS_WATERING_DURATION_SEC);
             SYS_reset_elapsed_time();
             sys_state = SYS_WATERING;

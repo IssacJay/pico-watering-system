@@ -50,7 +50,7 @@
 
 #define SYS_TASK_LOOP_DELAY_MS              1U
 #define SYS_WATERING_DURATION_SEC           20U
-#define SYS_WATERING_INTERVAL_HRS           60U
+#define SYS_WATERING_INTERVAL_HRS           12U
 #define SYS_TEMPERATURE_INTERVAL_SEC        10U
 
 typedef enum {
