@@ -45,7 +45,7 @@ void DRV_init(void) {
     for (uint16_t sensor = 0; sensor < HW_GPIO_PIN_TEMP_SENSOR_NUM_PINS; sensor++) {
         DRV_dht11_sensors[sensor] = (DRV_dht11_sensor_t){
             .sensor_id = sensor,
-            .gpio_pin = (HW_gpiotemperature_DH11_pins_t)(sensor + HW_GPIO_PIN_TEMP_SENSOR_INTERNAL),
+            .gpio_pin = (HW_gpio_temperature_DHT11_pins_t)(sensor + HW_GPIO_PIN_TEMP_SENSOR_INTERNAL),
             .humidity_integer = 0U,
             .humidity_decimal = 0U,
             .temperature_integer = 0U,
@@ -54,6 +54,16 @@ void DRV_init(void) {
         };
         DRV_dht11_init(DRV_dht11_sensors[sensor]);
     }
+
+    /* Initialise Switches */
+    for (uint16_t pole_switch = 0; pole_switch < SYS_NUM_SWITCHES; pole_switch++) {
+        DRV_switches[pole_switch] = (DRV_switch_t){
+            .switch_id  = (SYS_switches_t)pole_switch,
+            .gpio_pin   = (HW_gpio_switch_pins_t)(HW_GPIO_PIN_SWITCH_BURST + pole_switch),
+            .state      = false
+        };
+    }
+
 
     if(SYS_DEBUG_MODE) {
         printf("Hardware drivers initialised successfully.\n");

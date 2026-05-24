@@ -62,12 +62,13 @@ void SYS_task(void) {
                 break;
         }
 
+        /* Check if its time to water */
         if(elapsed_time_ms >= HRS_TO_MS(SYS_WATERING_INTERVAL_HRS) && sys_state == SYS_IDLE) {
             printf("Starting watering cycle for %u seconds...\n", SYS_WATERING_DURATION_SEC);
             SYS_reset_elapsed_time();
             sys_state = SYS_WATERING;
         }
-
+        /* Check if its time to read temperature/humidity */
         if(elapsed_time_ms % SEC_TO_MS(SYS_TEMPERATURE_INTERVAL_SEC) == 0) {
             printf("Reading temperature and humidity sensors...\n");
             uint16_t sensor_id = SYS_TEMP_SENSOR_INTERNAL;
@@ -75,7 +76,12 @@ void SYS_task(void) {
             float humidity = CMD_read_humidity(&sensor_id);  
             printf("Sensor %u - Temperature: %.1f°C, Humidity: %.1f%%\n", sensor_id, temp, humidity);
         }
-
+        
+        /* Check if burst is triggered */
+        CMD_read_burst_switch();
+        /* Check if reset is triggered */
+        CMD_read_reset_switch(); 
+        
         elapsed_time_ms += SYS_TASK_LOOP_DELAY_MS;
         sleep_ms(SYS_TASK_LOOP_DELAY_MS); 
     }

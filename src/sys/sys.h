@@ -50,8 +50,10 @@
 
 #define SYS_TASK_LOOP_DELAY_MS              1U
 #define SYS_WATERING_DURATION_SEC           20U
+#define SYS_WATERING_BURST_DURATION_SEC     5U
 #define SYS_WATERING_INTERVAL_HRS           12U
 #define SYS_TEMPERATURE_INTERVAL_SEC        10U
+
 
 typedef enum {
     SYS_WATER_PUMP_TOP,
@@ -64,6 +66,12 @@ typedef enum {
     SYS_TEMP_SENSOR_EXTERNAL,
     SYS_NUM_TEMP_SENSORS
 } SYS_temp_sensors_t;
+
+typedef enum { 
+    SYS_SWITCH_BURST,
+    SYS_SWITCH_RESET,
+    SYS_NUM_SWITCHES
+} SYS_switches_t; 
 
 /* @brief System states 
 */

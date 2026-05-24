@@ -6,6 +6,7 @@
 ** Project       Pico Irrigation System
 ************************************************************************************
 ** Revisions:
+** V1.1 - 22 May 2026 - Add switches 
 ** V1.0 - 02 May 2026 - Initial version 
 ************************************************************************************
 ** This program is the confidential and proprietary product of: Issac Thomas.
@@ -47,8 +48,15 @@ typedef struct {
     bool valid;
 } DRV_dht11_sensor_t;
 
-extern DRV_relay_t      DRV_water_pump_relays[];
-extern DRV_dht11_sensor_t DRV_dht11_sensors[];
+typedef struct {
+    uint16_t switch_id;
+    uint16_t gpio_pin;
+    bool state;
+} DRV_switch_t
+;
+extern DRV_relay_t          DRV_water_pump_relays[];
+extern DRV_dht11_sensor_t   DRV_dht11_sensors[];
+extern DRV_switch_t         DRV_switches[]; 
 
 /***********************************************************************************
  * Functions
@@ -88,5 +96,19 @@ bool DRV_dht11_read(DRV_dht11_sensor_t sensor, DRV_dht11_sensor_t *data);
  * @return Pointer to the sensor data structure.
  */
 DRV_dht11_sensor_t* DRV_dht11_get_data(DRV_dht11_sensor_t sensor);
+
+/* @brief Gets the state of the switch.
+ * @param pole_switch The switch object to query.
+ * @return The current state of the switch (true for ON, false for OFF).
+ */
+uint16_t DRV_switch_get_state(DRV_switch_t pole_switch);
+
+/* @brief Debounce mechanism for a switch (confirms read state after debounce period)
+ * @param pole_switch the switch object to query.
+ * return The current state of the switch. 
+*/
+uint16_t DRV_switch_debounce(DRV_switch_t pole_switch);
+
+
 
 #endif /* DRV_H_ */

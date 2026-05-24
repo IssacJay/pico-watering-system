@@ -25,6 +25,13 @@
 #include <stdint.h>
 
 /***********************************************************************************
+** Definitions
+*/
+
+#define CMD_RESET_SWITCH_HOLD_DURATION_SEC 5U
+
+
+/***********************************************************************************
 ** Functions
 */
 
@@ -44,6 +51,17 @@ float CMD_read_temperature(uint16_t *temperature_SENSOR);
 
 /** @brief Read the humidity from the temperature/humidity sensors. */
 float CMD_read_humidity(uint16_t *temperature_SENSOR);
+
+/** @brief Read if burst is triggered. If active then trigger
+ *          burst watering sequence. 
+ */
+void CMD_read_burst_switch();
+
+/** @brief Read if reset is triggered by long hold of reset switch. 
+ *          If active, then reset system timer.
+ */
+void CMD_read_reset_switch();
+
 
 
 

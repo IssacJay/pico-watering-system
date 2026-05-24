@@ -112,3 +112,37 @@ float CMD_read_humidity(uint16_t *temperature_SENSOR) {
     
     return humidity;
 }
+
+
+void CMD_read_burst_switch() {
+    uint16_t state = DRV_switch_get_state(DRV_switches[SYS_SWITCH_BURST]);
+    if(state == GPIO_SWITCH_ACTIVE){
+        printf("Burst switch triggered. Starting burst watering cycle for %u seconds...\n", SYS_WATERING_BURST_DURATION_SEC);
+        sys_state = SYS_WATERING;
+        CMD_start_watering(SYS_WATER_PUMP_TOP);
+        gpio_put(HW_GPIO_PIN_LED, true); 
+        sleep_ms(SEC_TO_MS(SYS_WATERING_BURST_DURATION_SEC));
+        gpio_put(HW_GPIO_PIN_LED, false); 
+        CMD_stop_watering(SYS_WATER_PUMP_TOP);
+        sys_state = SYS_IDLE; 
+    }
+    return; 
+}
+
+void CMD_read_reset_switch() {
+    uint16_t state = DRV_switch_get_state(DRV_switches[SYS_SWITCH_RESET]);
+    if(state == GPIO_SWITCH_ACTIVE){
+        sleep_ms(SEC_TO_MS(CMD_RESET_SWITCH_HOLD_DURATION_SEC));
+        state = DRV_switch_get_state(DRV_switches[SYS_SWITCH_RESET]);
+        if(state == GPIO_SWITCH_ACTIVE){
+            printf("Reset switch triggered. Resetting system...\n");
+            SYS_reset_elapsed_time();
+            gpio_put(HW_GPIO_PIN_LED, true);
+            sleep_ms(SEC_TO_MS(CMD_RESET_SWITCH_HOLD_DURATION_SEC));
+            gpio_put(HW_GPIO_PIN_LED, false);
+        }
+    }
+    return; 
+}
+
+

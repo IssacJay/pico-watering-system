@@ -37,8 +37,17 @@ typedef enum {
     HW_GPIO_PIN_TEMP_SENSOR_NUM_PINS
 } HW_gpio_temperature_DHT11_pins_t;
 
+typedef enum{
+    HW_GPIO_PIN_SWITCH_BURST    = 14U,
+    HW_GPIO_PIN_SWITCH_RESET    = 15U,
+    HW_GPIO_PIN_SWITCH_NUM_PINS
+} HW_gpio_switch_pins_t; 
+
 #define GPIO_RELAY_ACTIVE 0U
 #define GPIO_RELAY_INACTIVE 1U
+
+#define GPIO_SWITCH_ACTIVE 0U
+#define GPIO_SWITCH_INACTIVE 1U
 
 /***********************************************************************************
 ** Functions
